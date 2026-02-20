@@ -1,0 +1,30 @@
+Porovnání časového a tahové modelu
+
+Tahový model je takový model, v rámci kterého se hraje hraje po tazích.
+Výhody tahového modelu:
+Lepší přehled nad situací. V mnoha hrách s běžícím časem se hráčům může stát, že
+zapomenou na některý aspekt hry. To se poté během času může naakumulovat, až je již příliš pozdě na
+nápravu. Může například vzniknout situace, kdy ve hře hráč zapomene vytvořit výrobní linku nějaké lodi.
+Poté uběhne podstatné množství času a hráč si uvědomí, že nedisponuje žádnou lodí. Hra pro něj v 
+ten moment buďto končí, nebo se mu může zprotivit.
+V tahových hrách má práč možnost mít během svého kola nad vším přehled. Během svého kola může hráč
+vidět všechny své výrobní linky, všechny své jednotky, procesy. Hráč se navíc nemusí bát toho, že
+by se během jeho tahu mohlo stát něco způsobené jiným hráčem.
+Nevýhody tahového modelu:
+V tahovém modelu je hlavní problém zdlouhavost času. Pokud si chce skupina hráčů zahrát během jednoho
+večera tahovou hru, musí se jednat o kratší typ. Jelikož má každý hráč nárok na své kolo,
+která nebývají nijak omezená časem, může se i kratší tahová hra prodloužit na značně dlouhou dobu.
+V případě většího množství hráčů je pak hraní pro mnohé nudné a nezáživné. Hráč se může dostat
+ke svému tahu i jednou za až půl hodiny či více. To způsobí pocit, že hráčův tah je jen krátký,
+nepodstatný okamžik. Hra pak může být předčasně zrušena odstoupením některých hráčů.
+
+Výhody časového modelu:
+V časovém modelu probíhá pro všechny hráče čas stejně. Hráči mají tedy možnost dělat cokoliv kdykoliv,
+aniž by museli čekat na své kolo. Běh času může být některým z hráčů pozastaven, pokud tomu tak
+hostitel hry dovolí, nebo může být hra nastavena tak, aby se nezastavovala. Díky tomuto modelu jsou
+pak hry plynulejší a zábavnější na delší dobu nebo při vyšším množství hráčů.
+Nevýhody časového modelu:
+Jak již bylo vysvětleno v předešlé části, hlavní nevýhodou časového modelu je jeho neodpustitelnost,
+pokud hráč během hry na něco zapomene. Hráči se musí postarat o to, aby na nic nezapomněli nebo nezanedbali.
+
+Produkce
