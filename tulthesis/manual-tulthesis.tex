@@ -1,0 +1,180 @@
+\documentclass[FM,BP]{tulthesis}
+\newcommand{\verze}{2.3}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{czech} % comment when English is preferred
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{xunicode}
+\usepackage{xltxtra}
+
+\newcommand{\argument}[1]{{\ttfamily\color{\tulcolor}#1}}
+\newcommand{\argumentindex}[1]{\argument{#1}\index{#1}}
+\newcommand{\prostredi}[1]{\argumentindex{#1}}
+\newcommand{\prikazneindex}[1]{\argument{\textbackslash #1}}
+\newcommand{\prikaz}[1]{\prikazneindex{#1}\index{#1@\textbackslash #1}}
+\newenvironment{myquote}{\begin{list}{}{\setlength\leftmargin\parindent}\item[]}{\end{list}}
+\newenvironment{listing}{\begin{myquote}\color{\tulcolor}}{\end{myquote}}
+\sloppy
+
+% deklarace pro titulní stránku / title page declaration
+\TULtitle{Aplikace simulující interakce mezi entitami ve virtuálním prostoru }{An application simulating interactions between entities in virtual space }
+\TULauthor{Rayan Bouzid}
+
+% pro bakalářské, diplomové a disertační práce / for bachelor, master theses and dissertation
+\TULprogramme{B0613A140005}{Informační technologie}{Information Technology}
+\TULbranch{B0613A140005AI}{Aplikovaná informatika}{Applied informatics}
+%\TULbranch{1802T008}{Nějaký jiný obor}{Some other branch}
+\TULsupervisor{Ing. Roman Špánek, Ph.D.}
+%\TULconsultant{doc. RNDr. Pavel Satrapa, Ph.D.}
+%\TULconsultant{doc. RNDr. Druhý Konzultant, Ph.D.}
+%\TULconsultant{doc. RNDr. Třetí Konzultant, Ph.D.}
+\TULyear{2026}
+
+% Použití bibLateXu, pracuje s ISO stylem
+% BibLaTeX settings, works with ISO style
+\usepackage[ 
+    backend=biber
+     % ,style=iso-authoryear % styl vyžaduje FZS TUL , místo příkazu \cite{} je potřeba využít \parencite{} (sazba kulatých závorek) / style required by FZS TUL use \parencite{} instead of \cite{}
+    ,style=iso-numeric
+    %,style=numeric
+    %,sortlocale=cs_CZ
+    ,sorting=nyt %seřazeno jméno, rok, titul
+    ,autolang=other
+    ,bibencoding=UTF8
+    %,urldate=edtf
+    ,maxcitenames=2 %maximum v textu citovaných jmen
+    ,maxbibnames=3 %maximum v seznamu vyjmenovaných autorů
+    ]{biblatex}
+\addbibresource{refTULTHESIS.bib}% vložení seznamu literárních zdrojů v bib formátu / input of references in bib format
+
+% Úprava iso-numeric.bbx v souladu s požadavky TUL hranaté závorky v číslovaném seznamu / Modification of iso-numeric.bbx in accordance with TUL requirements of square brackets in a numbered list
+\DeclareFieldFormat{labelnumberwidth}{\mkbibbrackets{#1}}
+
+% Formátování podle pokynů FZS, při využití stylu iso-authoryear, čárka mezi jmény a poslední jméno se spojkou a / special requirements of FZS TUL 
+\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+
+\DeclareDelimFormat{finalnamedelim}{%
+  \ifnumgreater{\value{liststop}}{2}{\finalandcomma}{}%
+  \addspace\bibstring{and}\space}
+
+\DeclareNameAlias{author}{family-given/given-family} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{csquotes} %užití biblatexu hlasí warnings, důvodem může být použití českých uvozovek v citacích! / solving of problems with Czech quotations
+\urlstyle{same} %sazba url odkazů stejným fontem jako ostatní text, řešení problémů v zalamování hypertextových odkazů v citacích / url in references setting into the same form as text 
+
+\usepackage{listings} %package for sourcode typesetting
+%řešení problémů češtiny např. při sazbě zdrojových kódů / czech special characters in sourcecode typesetting
+\makeatletter
+\lst@InputCatcodes
+\def\lst@DefEC{%
+ \lst@CCECUse \lst@ProcessLetter
+  ^^80^^81^^82^^83^^84^^85^^86^^87^^88^^89^^8a^^8b^^8c^^8d^^8e^^8f%
+  ^^90^^91^^92^^93^^94^^95^^96^^97^^98^^99^^9a^^9b^^9c^^9d^^9e^^9f%
+  ^^a0^^a1^^a2^^a3^^a4^^a5^^a6^^a7^^a8^^a9^^aa^^ab^^ac^^ad^^ae^^af%
+  ^^b0^^b1^^b2^^b3^^b4^^b5^^b6^^b7^^b8^^b9^^ba^^bb^^bc^^bd^^be^^bf%
+  ^^c0^^c1^^c2^^c3^^c4^^c5^^c6^^c7^^c8^^c9^^ca^^cb^^cc^^cd^^ce^^cf%
+  ^^d0^^d1^^d2^^d3^^d4^^d5^^d6^^d7^^d8^^d9^^da^^db^^dc^^dd^^de^^df%
+  ^^e0^^e1^^e2^^e3^^e4^^e5^^e6^^e7^^e8^^e9^^ea^^eb^^ec^^ed^^ee^^ef%
+  ^^f0^^f1^^f2^^f3^^f4^^f5^^f6^^f7^^f8^^f9^^fa^^fb^^fc^^fd^^fe^^ff%
+% české znaky
+  ^^^^010c^^^^010d^^^^010e^^^^010f^^^^011a^^^^011b^^^^0147^^^^0148%
+  ^^^^0158^^^^0159^^^^0160^^^^0161^^^^0164^^^^0165%
+  ^^^^016e^^^^016f^^^^017d^^^^017e%
+  ^^00}
+\lst@RestoreCatcodes
+\makeatother
+
+\begin{document}
+
+\ThesisStart{male}
+%\ThesisStart{zadani-a-prohlaseni.pdf}
+
+\begin{abstractCZ}
+Tato zpráva popisuje vývoj a funkčnost počítačové aplikace Space Merchant. Jedná se o simulátor umožňující simulaci jednoduchých obchodních aktivit mezi entitami v rámci virtuálního prostoru.
+\end{abstractCZ}
+
+\begin{keywordsCZ}
+Simulace, entita, obchod, komodita
+\end{keywordsCZ}
+
+\vspace{2cm}
+
+\begin{abstractEN}
+This report describes the \texttt{tulthesis} package for Technical university of
+Liberec thesis typesetting using the \LaTeX\ typographic system.
+\end{abstractEN}
+
+\begin{keywordsEN}
+Simulation, entity, trade, commodity
+\end{keywordsEN}
+
+\clearpage
+
+\begin{acknowledgement}
+Rád bych poděkoval panu inženýru Špánkovi za podněty ke zpracování této práce.
+\end{acknowledgement}
+
+\tableofcontents
+
+\clearpage
+
+\begin{abbrList}
+\textbf{TUL} & Technická univerzita v~Liberci \\
+\textbf{FM} & Fakulta mechatroniky, informatiky a mezioborových studií
+Technické univerzity v~Liberci
+\end{abbrList}
+
+
+\chapter{Úvod}
+Hlavním cílem této bakalářské práce je vytvoření funkčního obchodního simulátoru, programu, který umožňuje definovat virtuální prostor v rámci kterého existují tzv. entity, které vlastní komodity a úložistě pro jejich uložení. Entity mezi sebou mohou obchodovat za účelem zisku.
+Simulátor je inspirován hrami:
+\begin{itemize}
+	\item Victoria 2 -- Strategická hra ve které hráči hrají za státy a mají možnost mezi sebou obchodovat a mít diplomatické vztahy v celé šíři, od spojenectví až po válku.
+	\item Prosperous Universe -- Netradiční hra, která umožňuje hráčům hrát za vesmírné firmy. Hra nabízí komplexní obchodní a logistický systém.
+	\item Osadníci z Katanu -- Populární desková hra, ve které hráči hrají za rody v neprobádaném území. Hráči obsazují nové oblasti pomocí svých osad a získávají tím přístup k novým surovinám, které mají možnost prodávat jiným hráčům nebo za ně rozšiřovat svojí infrastrukturu.
+\end{itemize}
+Motivací projektu je vytvoření základního funkčního simulátoru, který bude možné postupně modulárně rozšiřovat o nové prvky, funkcionality, vlastnosti. Hra má především přinést zábavu pro zájemce do ekonomicky zaměřených her.
+V rámci práce byl především využit programovací jazyk C++. Pro definici herních dat byl využit jazyk JSON.
+Obchodní simulátor, jako obecný simulátor, definuje množinu virtuálních objektů, jejich vzájemné vazby a pravidla pro jejich interakci. Simulaci je tedy možné si představit jako uzavřený vesmír nezávislý na vnějších podnětech.
+
+
+\section{Porovnání časového a tahového modelu}
+
+Ve videoherním i deskovém průmyslu se pro řízení dynamiky hry nejčastěji využívají dva základní přístupy: tahový a časový (často označovaný jako model v reálném čase). Každý z těchto systémů přináší specifické výhody a nevýhody, které zásadně ovlivňují hratelnost a celkový uživatelský zážitek.
+
+\textbf{Tahový model}\\
+V tahovém modelu se hra odvíjí v jasně definovaných, sekvenčních krocích, kdy se hráči pravidelně střídají v provádění svých akcí.
+
+    Výhody: Hlavním benefitem je dokonalý přehled nad herní situací a dostatek prostoru pro strategické plánování. Hráč není pod časovým tlakem, což mu umožňuje v klidu zkontrolovat všechny své jednotky, procesy či výrobní linky. Během vlastního tahu navíc nečelí neočekávaným zásahům ze strany protihráčů. Minimalizuje se tak riziko, že by vlivem zbrklosti zapomněl na důležitý aspekt hry.
+
+    Nevýhody: Zásadním problémem tahových her je jejich zdlouhavost a takzvané prostoje (downtime). S rostoucím počtem účastníků se úměrně prodlužuje doba čekání na tah. Pokud se hráč dostane k akci například jen jednou za půl hodiny, může hra ztratit tempo, stát se nezáživnou a v extrémních případech vést až k předčasnému odstoupení znuděných hráčů.
+
+\textbf{Časový model}\\
+V časovém modelu plyne čas plynule a pro všechny účastníky synchronně. Akce tak probíhají simultánně, aniž by se muselo čekat na tahy ostatních.
+
+    Výhody: Tento přístup nabízí mnohem vyšší plynulost a dynamiku. Hráči mohou jednat kdykoliv, což činí hru zábavnější i při větším množství účastníků. Podle nastavení pravidel může hostitel běh času libovolně pozastavovat, nebo naopak vynutit jeho nezastavitelný tok.
+
+    Nevýhody: Hlavní slabinou tohoto modelu je jeho neodpustitelnost. Vzhledem k tomu, že se situace neustále vyvíjí, klade hra vysoké nároky na pozornost. Pokud hráč například zapomene zadat výrobu nové lodi, tato chyba se v čase kumuluje. Po určité době může zjistit, že nedisponuje dostatečnou flotilou, což ho postaví do fatální nevýhody, ze které již často není návratu.
+
+\chapter*{Závěr}
+\addcontentsline{toc}{chapter}{Závěr}
+
+\printbibliography[title={Použitá literatura},heading=bibintoc] % sazba seznamu citací a vložení do obsahu 
+% \printbibliography[title={References},heading=bibintoc] 
+
+% \addcontentsline{toc}{chapter}{References} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\renewcommand{\indexname}{Rejstřík}
+\printindex
+
+\appendix
+\chapter{Přílohy}
+
+\section{Velké tabulky a obrázky} % příklad přílohy 
+
+\end{document}
