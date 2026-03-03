@@ -1,7 +1,0 @@
-\xpg@aux {}{czech}
-\contentsline {section}{Seznam zkratek}{7}{section*.2}%
-\contentsline {chapter}{\numberline {1}Úvod}{8}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Porovnání časového a tahového modelu}{8}{section.1.1}%
-\contentsline {chapter}{Závěr}{10}{chapter*.3}%
-\contentsline {chapter}{\numberline {A}Přílohy}{11}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Velké tabulky a obrázky}{11}{section.A.1}%
