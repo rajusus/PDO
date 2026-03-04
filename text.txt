@@ -27,4 +27,18 @@ Nevýhody časového modelu:
 Jak již bylo vysvětleno v předešlé části, hlavní nevýhodou časového modelu je jeho neodpustitelnost,
 pokud hráč během hry na něco zapomene. Hráči se musí postarat o to, aby na nic nezapomněli nebo nezanedbali.
 
-Produkce
+
+
+Model Client-Server
+Tradiční počítačové hry často využívají monolitickou architekturu, kde je veškerá herní logika i uživatelské rozhraní součástí jednoho spustitelného souboru. Výhodou tohoto přístupu je značná uživatelská přívětivost, jelikož v rámci jedné aplikace lze hru hrát, lokálně hostovat, nebo se připojit k existujícímu sezení. Tato architektura má však zásadní nevýhody týkající se efektivity. Pokud chce uživatel fungovat pouze jako dedikovaný server, musí i tak udržovat v běhu celou aplikaci, a to včetně výpočetně náročného vykreslování grafického rozhraní (chybí zde podpora tzv. headless režimu).
+
+Porovnání komunikačních režimů
+Při vývoji distribuovaných aplikací musí vývojáři zvolit vhodný model synchronizace stavu. Tradiční multiplayerové hry využívají dva základní přístupy k distribuci dat.
+
+Synchronní režim (Lockstep)
+V synchronním režimu je každá běžící instance programu striktně závislá na ostatních. Hostitel zde slouží primárně k distribuci počátečního stavu hry nově připojeným klientům. Tento úvodní datový balík může být značně objemný, často i v řádech gigabytů. Po jeho obdržení se z klienta stává nezávislá simulační instance, která si celý herní svět počítá sama. Komunikace po síti je následně minimalistická – instance si vyměňují pouze příkazy o uživatelských vstupech. Pro posun simulace o jeden krok (tzv. tik) je nutné počkat, až všechny zúčastněné instance potvrdí přijetí a zpracování dat, což tento model činí vysoce náchylným na výkyvy v latenci.
+
+Asynchronní režim (Autoritativní server)
+V asynchronním režimu funguje jako jediný zdroj pravdy o stavu simulace dedikovaný server. Nově připojený klient si vyžádá kompletní stav hry, načež mu server průběžně a asynchronně odesílá pouze informace o změnách (tzv. delta aktualizace). Klient si tak v paměti udržuje pouze lokální kopii dat nutnou pro vizualizaci, kterou upravuje čistě na základě zpráv přijatých od serveru.
+
+Proč je Space Merchant v asyncrhonním režimu?
