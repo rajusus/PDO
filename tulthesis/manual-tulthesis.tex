@@ -137,11 +137,12 @@ Simulátor je inspirován hrami:
 	\item Victoria 2 -- Strategická hra ve které hráči hrají za státy a mají možnost mezi sebou obchodovat a mít diplomatické vztahy v celé šíři, od spojenectví až po válku.
 	\item Prosperous Universe -- Netradiční hra, která umožňuje hráčům hrát za vesmírné firmy. Hra nabízí komplexní obchodní a logistický systém.
 	\item Osadníci z Katanu -- Populární desková hra, ve které hráči hrají za rody v neprobádaném území. Hráči obsazují nové oblasti pomocí svých osad a získávají tím přístup k novým surovinám, které mají možnost prodávat jiným hráčům nebo za ně rozšiřovat svou infrastrukturu.
+	\item Planet S -- Videohra kde hráči hrají za vesmíné firmy a mohou získávat suroviny a obchodovat či spolu válčit
 \end{itemize}
 
 \chapter{Teoretická východiska a analýza technologií a konceptů}
 \section{Architektura síťových aplikací}
-Termínem aplikace je rozumněn pomyslný celek, který obsahuje veškeré nadefinované instrukce pro běh na zařízení. Většina aplikací má tzv. monolitickou architekturu. To znamená, že celá aplikace operuje jako jeden proces na hostitelském zařízení. Alternativou pak jsou tzv. mikroslužby, což jsou aplikace, které se skládají z více vzájemně interagujících procesů\cite{microsluzby}. Na operačním systému Windows by tedy například monolitická aplikace byla obsažena v jednom spustitelném souboru s příponou .exe. Naopak mikroslužební aplikace by se skládala z více takovýchto souborů.
+Termínem aplikace je rozumněn celek, který obsahuje veškeré nadefinované instrukce pro běh na zařízení. Většina aplikací má tzv. monolitickou architekturu. To znamená, že celá aplikace operuje jako jeden proces na hostitelském zařízení. Alternativou pak jsou tzv. mikroslužby, což jsou aplikace, které se skládají z více vzájemně interagujících procesů\cite{microsluzby}. Na operačním systému Windows by tedy například monolitická aplikace byla obsažena v jednom spustitelném souboru s příponou .exe. Naopak mikroslužební aplikace by se skládala z více takovýchto souborů.
 \subsection{Monolitické a mikroslužební aplikace}
 Obě architektury mají své výhody a nevýhody, proto je při návrhu aplikace důležité vybrat správnou architekturu.
 \subsubsection{Monolitické aplikace}
@@ -151,9 +152,11 @@ U větších aplikací je časté, že zrovna není zapotřebí spustit je celé
 Vývojář mikroslužební aplikace tedy musí vytvořit i protokol, který budou mikroslužby pro vzájemnou komunikaci využívat, což přináší především značně složitější implementace.
 
 \section{Synchronizace stavu}
-Existuje  více způsobů, jak navrhnout architekturu síťového programu. Práce má zadanou podmínku navrhout prostředí v prostředí server-client. Tím se vylučuje možnost využítí asynchronní architektury.
+Existuje  více způsobů, jak navrhnout architekturu síťové aplikce. Práce má zadanou podmínku navrhout prostředí v prostředí server-client. Proto je třeba důrazně rozlišit mezi danými způsoby implementace a zvolit ten odpovídající.
 % Rozdíl mezi synchronním (Lockstep) a asynchronním (Autoritativní server) režimem.
 \subsection{Asynchronní architektura}
+Asynchronní architekura se řídí pravidlem, že je každý člen této architektury sebezodpovědný. V této architektuře je běžné, že je hostitelský proces pouze poskytovatel prvotních dat pro nově připojující se členy.
+Nově připojující se proces si nejprve zašle požadavek o data od hostitelského procesu. Ten následně data odešle. Jelikož se jedná o kompletní balík se všemi herními daty, může se jednat i o poměrně veliký objem dat. Následně je
 
 \subsection{Synchronní architektura}
 
