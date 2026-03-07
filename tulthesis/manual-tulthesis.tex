@@ -128,11 +128,11 @@ Technické univerzity v~Liberci
 
 
 \chapter{Úvod}
-Hlavním cílem této bakalářské práce je vytvoření funkčního obchodního simulátoru, tj. programu, který umožňuje definovat virtuální prostor v rámci kterého existují tzv. entity, které vlastní komodity a úložiště pro jejich uložení. Entity mezi sebou následně mohou obchodovat za různými účely.
+Hlavním cílem této bakalářské práce je vytvoření funkčního obchodního simulátoru. Simulátor má umožňovat definovat virtuální prostor v rámci kterého existují tzv. entity, které vlastní komodity a úložiště pro jejich uložení. Entity mezi sebou následně mohou obchodovat za různými účely.
 V rámci práce byl především využit jazyk C++. Pro definici herních dat byla využita notace JSON.
 \section{Motivace}
-Motivací projektu je vytvoření základního funkčního simulátoru, který bude možné postupně modulárně rozšiřovat o nové prvky, funkcionality, vlastnosti. Hra má především přinést poutavý uživatelský zážitek pro zájemce o ekonomicky zaměřené hry. V prostoru již bylo vydáno značné množství obchodně zaměřených simulátorů, avšak u mnohých mohou nadšenci nalézt mnoho nedostatků. Tento projekt by tedy měl některé tyto nedostatky odstranit. Při vývoji projektu však byla čerpána značná inspirace od již existujících projektů.
-Simulátor je inspirován hrami:
+Motivací projektu je vytvoření základního funkčního simulátoru, který bude možné postupně modulárně rozšiřovat o nové prvky, funkcionality a mechaniky. Simulátor má především přinést poutavý uživatelský zážitek pro zájemce o ekonomicky zaměřené hry. V této oblasti již bylo vydáno značné množství simulátorů, tento projekt by k nim měl nabídnout zajímavou, odlehčenou variantu. Při vývoji projektu byla od těchto již vytvořených simulátorů čerpána značná inspirace.
+Zdroje inspirace tak jsou:
 \begin{itemize}
 	\item Victoria 2 -- Strategická hra ve které hráči hrají za státy a mají možnost mezi sebou obchodovat a mít diplomatické vztahy v celé šíři, od spojenectví až po válku.
 	\item Prosperous Universe -- Netradiční hra, která umožňuje hráčům hrát za vesmírné firmy. Hra nabízí komplexní obchodní a logistický systém.
@@ -146,38 +146,46 @@ Termínem aplikace je rozumněn celek, který obsahuje veškeré nadefinované i
 \subsection{Monolitické a mikroslužební aplikace}
 Obě architektury mají své výhody a nevýhody, proto je při návrhu aplikace důležité vybrat správnou architekturu.
 \subsubsection{Monolitické aplikace}
-Z počátku by se mohlo zdát, že by měly být monolitické aplikace lepší na údržbu či chod, avšak to nemusí vždy platit\cite{atlassian_mono_vs_micro}. Hlavní výhodou monolitických aplikací je především jednoduchost jejich implementace. Jelikož se jedná o jednotný balík, není potřeba řešit protokolování pro přenos dat. Každá část aplikace má možnost mít přístup ke všem strukturám nadefinovaným v rámci aplikace. Aplikace je navíc díky své jednoduchosti i více uživatelsky přívětivá.
+Z počátku by se mohlo zdát, že by měly být monolitické aplikace lepší na údržbu či chod, avšak to nemusí vždy platit\cite{atlassian_mono_vs_micro}. Hlavní výhodou monolitických aplikací je především jednoduchost jejich implementace. Jelikož se jedná o jednotný balík, není potřeba řešit přenos dat mezi částmi aplikace. Každá část aplikace má možnost přístupu ke všem nadefinovaným strukturám. Aplikace navíc může být díky své jednoduchosti i více uživatelsky přívětivá.
 \subsubsection{Mikroslužby}
-U větších aplikací je časté, že zrovna není zapotřebí spustit je celé své šíři, avšak by uživateli stačila pouze její část. Jako příklad se zde nabízí uvést hry s více hráči. Pokud je hra naimplementována v režimu client-server a uživatel se pouze chce připojit jakožto klient k již běžícímu serveru, bylo by efektivnější, kdyby mohl uživatel mít možnost spustit pouze klientskou službu, bez potřeby spouštět i server, který by v takovémto případě byl nepotřebný. Nebo by mohla nastat situace, kdy si uživatel hostující hru nepřeje v danou chvíli hrát, ale rád by dál poskytoval jiným hráčům hrát na svém serveru. Bylo by pro něj tedy ideální, kdyby mohl nechat běžet pouze server, bez nutnosti mít zároveň i spuštěnou klientskou službu zodpovědnou za grafické zobrazování. Toto je hlavní výhodou mikroslužeb, jejich efektivita a úspornost. Mezi hlavní nevýhody této architektury patří protokolování, způsob, jak mezi sebou jednotlivé mikroslužby komunikují. Jelikož má každá mikroslužba svůj vlastní proces, nemohou mezi sebou mikroslužby komunikovat pomocí paměťových ukazatelů. Jedno možné řešení by bylo využití sdílené paměti, kdy se vymezí část operační paměti, do které následně mají jednotlivé mikroslužby přístup. Toto je validní a efektivní řešení, avšak pouze v případě, kdy se aplikace spouští pouze na jednom zařízení. V případě potřeby propojit více zařízení nepřichází sdílená paměť v úvahu. Je tedy nutno využít protokolování, nadefinované sdílení dat přes síť.
-Vývojář mikroslužební aplikace tedy musí vytvořit i protokol, který budou mikroslužby pro vzájemnou komunikaci využívat, což přináší především značně složitější implementace.
+U větších aplikací je časté, že zrovna není zapotřebí spustit je v celé své šíři, avšak by uživateli stačila pouze její část. Jako příklad se zde nabízí uvést hry s více hráči. Pokud je hra naimplementována v režimu client-server a uživatel se pouze chce připojit jako klient k již běžícímu serveru, bylo by efektivnější, kdyby mohl uživatel mít možnost spustit pouze klientskou část, bez potřeby spouštět i server, který by v takovémto případě byl nepotřebný. Nebo by naopak mohla nastat situace, kdy si uživatel hostující hru nepřeje v danou chvíli hrát, ale rád by dál poskytoval jiným hráčům připojení na svém serveru. Bylo by pro něj tedy ideální, kdyby mohl nechat běžet pouze server, bez nutnosti mít zároveň i spuštěnou klientskou službu zodpovědnou za grafické zobrazování, což by vedlo ke zbytečné spotřebě výpočetních prostředků. Toto mohou být hlavní výhody mikroslužeb, jejich efektivita a úspornost.
+Mezi hlavní nevýhody této architektury patří přenos dat mezi jejími částmi. Jelikož má každá aplikační část svůj vlastní proces, nemohou mezi sebou mikroslužby komunikovat například pomocí paměťových ukazatelů. Jedno možné řešení by bylo využití sdílené paměti, kdy se vymezí část operační paměti, do které následně mají jednotlivé části přístup. Toto může být validní a efektivní řešení, avšak pouze v případě, kdy se aplikace spouští pouze na jednom zařízení.
+Jako nejsložitější ale nejvyužitelnější připadá metoda protokolování, což si lze představit jako sdílení dat pomocí řádně nadefinovaných komunikačních pravidel.
+Vývojář mikroslužební aplikace v tomto případě tedy musí vytvořit i protokol, který budou části aplikace pro vzájemnou komunikaci využívat.
 
 \section{Synchronizace stavu}
-Existuje  více způsobů, jak navrhnout architekturu síťové aplikce. Práce má zadanou podmínku navrhout prostředí v prostředí server-client. Proto je třeba důrazně rozlišit mezi danými způsoby implementace a zvolit ten odpovídající.
+Existuje  více způsobů, jak navrhnout architekturu síťové aplikace. Práce má zadanou podmínku navrhout prostředí v prostředí server-client. Proto je třeba důrazně rozlišit mezi možnými architekturami a zvolit tu odpovídající.
 % Rozdíl mezi synchronním (Lockstep) a asynchronním (Autoritativní server) režimem.
 \subsection{Asynchronní architektura}
-Asynchronní architekura se řídí pravidlem, že je každý člen této architektury sebezodpovědný. V této architektuře je běžné, že je hostitelský proces pouze poskytovatel prvotních dat pro nově připojující se členy.
-Nově připojující se proces si nejprve zašle požadavek o data od hostitelského procesu. Ten následně data odešle. Jelikož se jedná o kompletní balík se všemi herními daty, může se jednat i o poměrně veliký objem dat. Následně je
+Asynchronní architekura se řídí pravidlem, že je každý prvek této architektury sebezodpovědný. V této architektuře je běžné, že je hostitelský prvek pouze poskytovatelem prvotních dat pro nově připojující se prvky.
+Nově připojující se prvek nejprve zašle požadavek o data od hostitele, který následně data odešle a zároveň informuje ostatní prvky v síti o nově připojeném prvku. Jelikož se jedná o kompletní balík se všemi herními daty, může se jednat i o poměrně veliký objem dat. Následně je
 
 \subsection{Synchronní architektura}
+V synchronní architektuře je jeden prvek, který slouží jako zdroj dat, který poskytuje data ostatním prvkům v síti. Tato architektura tak má výhodu, že je stabilnější a není potřeba se spoléhat na to, že všechny prvky architektury budou mít vždy stejná data.
 
-\chapter{Pravidla simulátoru}
-Ve videoherním i deskovém průmyslu se pro řízení dynamiky hry nejčastěji využívají dva základní přístupy: tahový a časový (často označovaný jako model v reálném čase). Každý z těchto systémů přináší specifické výhody a nevýhody, které zásadně ovlivňují hratelnost a celkový uživatelský zážitek.
+\section{Programovací jazyky}
+
+\chapter{Analýza pravidel a možností simulátoru}
+Ve videoherním i deskoherním průmyslu se pro řízení dynamiky hry nejčastěji využívají dva základní přístupy, tahový a časový. Každý z těchto systémů přináší specifické výhody a nevýhody, které zásadně ovlivňují hratelnost a celkový uživatelský zážitek.
 \section{Tahový model}
-V tahovém modelu se hra odvíjí v jasně definovaných, sekvenčních krocích, kdy se hráči pravidelně střídají v provádění svých akcí.
+V tahovém modelu se hra odvíjí v jasně definovaných, postupných krocích. Hráči se pravidelně střídají v provádění svých akcí.
 
-Výhody: Hlavním benefitem je dokonalý přehled nad herní situací a dostatek prostoru pro strategické plánování. Hráč není pod časovým tlakem, což mu umožňuje v klidu zkontrolovat všechny své jednotky, procesy či výrobní linky. Během vlastního tahu navíc nečelí neočekávaným zásahům ze strany protihráčů. Minimalizuje se tak riziko, že by vlivem zbrklosti zapomněl na důležitý aspekt hry.
+Hlavním benefitem je dokonalý přehled nad herní situací a dostatek prostoru pro strategické plánování. Hráč není pod časovým tlakem, což mu umožňuje v klidu zkontrolovat všechny své jednotky, procesy či výrobní linky. Během vlastního tahu navíc nečelí neočekávaným zásahům ze strany protihráčů. Minimalizuje se tak riziko, že by vlivem zbrklosti zapomněl na důležitý aspekt hry.
 
-Nevýhody: Zásadním problémem tahových her je jejich zdlouhavost a takzvané prostoje (downtime). S rostoucím počtem účastníků se úměrně prodlužuje doba čekání na tah. Pokud se hráč dostane k akci například jen jednou za půl hodiny, může hra ztratit tempo, stát se nezáživnou a v extrémních případech vést až k předčasnému odstoupení znuděných hráčů.
+Zásadním problémem tahových her je jejich zdlouhavost. S rostoucím počtem účastníků se úměrně prodlužuje doba čekání na tah. Pokud se hráč dostane k akci například jen jednou za půl hodiny, může hra ztratit tempo a stát se nezáživnou a v extrémních případech vést až k předčasnému odstoupení znuděných hráčů.
 
 \section{Časový model}
-V časovém modelu plyne čas plynule a pro všechny účastníky synchronně. Akce tak probíhají simultánně, aniž by se muselo čekat na tahy ostatních.
+Také někdy nazýván jako model v reálném čase, v časovém modelu plyne čas plynule a pro všechny účastníky synchronně. Akce tak probíhají najednou, aniž by se muselo čekat na tahy ostatních.
 
-Výhody: Tento přístup nabízí mnohem vyšší plynulost a dynamiku. Hráči mohou jednat kdykoliv, což činí hru zábavnější i při větším množství účastníků. Podle nastavení pravidel může hostitel běh času libovolně pozastavovat, nebo naopak vynutit jeho nezastavitelný tok.
+Tento přístup nabízí mnohem vyšší plynulost a dynamiku. Hráči mohou jednat kdykoliv, což činí hru zábavnější i při větším množství účastníků. Podle nastavení pravidel mohou hráči běh času libovolně pozastavovat, nebo naopak vynutit jeho nezastavitelný běh.
 
-Nevýhody: Hlavní slabinou tohoto modelu je jeho neodpustitelnost. Vzhledem k tomu, že se situace neustále vyvíjí, klade hra vysoké nároky na pozornost. Pokud hráč například zapomene zadat výrobu nové lodi, tato chyba se v čase kumuluje. Po určité době může zjistit, že nedisponuje dostatečnou flotilou, což ho postaví do fatální nevýhody, ze které již často není návratu.
+Hlavní slabinou tohoto modelu je jeho neodpustitelnost. Vzhledem k tomu, že se situace neustále vyvíjí, klade hra vysoké nároky na pozornost. Pokud hráč například zapomene zadat výrobu nové lodi, tato chyba se v čase kumuluje. Po určité době může zjistit, že nedisponuje dostatečnou flotilou, což ho postaví do fatální nevýhody, ze které již často není návratu.
+
 \chapter{Implementace}
+Pro implementaci práce byl založen projekt Space Merchant (z anglického jazyka přeloženo jako "vesmírný obchodník" či "prostorový obchodník"). Projekt vyžaduje komplexní využití výpočeních prostředků a ideálně rychlost a dostupnost. Pro účely takového projektu byl zvolen jazyk C++ a pro záznam dat notace JSON.
+
+
 \chapter{Uživatelská příručka a rozhraní}
-\section{Porovnání časového a tahového modelu}
 
 
 
