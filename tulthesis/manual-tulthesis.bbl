@@ -19,6 +19,34 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global/global}
+    \entry{paradox_challenge_2025}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=ffbc716dd478e444cb2537d26ff9d639}{%
+           family={Archael90},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{ffbc716dd478e444cb2537d26ff9d639}
+      \strng{fullhash}{ffbc716dd478e444cb2537d26ff9d639}
+      \strng{fullhashraw}{ffbc716dd478e444cb2537d26ff9d639}
+      \strng{bibnamehash}{ffbc716dd478e444cb2537d26ff9d639}
+      \strng{authorbibnamehash}{ffbc716dd478e444cb2537d26ff9d639}
+      \strng{authornamehash}{ffbc716dd478e444cb2537d26ff9d639}
+      \strng{authorfullhash}{ffbc716dd478e444cb2537d26ff9d639}
+      \strng{authorfullhashraw}{ffbc716dd478e444cb2537d26ff9d639}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Client challenge}
+      \field{title}{Proposal: Alternative Multiplayer Architecture to Reduce OOS Issues}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://forum.paradoxplaza.com/forum/threads/proposal-alternative-multiplayer-architecture-to-reduce-oos-issues.1883651/
+      \endverb
+      \verb{url}
+      \verb https://forum.paradoxplaza.com/forum/threads/proposal-alternative-multiplayer-architecture-to-reduce-oos-issues.1883651/
+      \endverb
+    \endentry
     \entry{atlassian_mono_vs_micro}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=9dd11125497946fde13ba533d49a9c14}{%

@@ -140,30 +140,38 @@ Zdroje inspirace tak jsou:
 	\item Planet S -- Videohra kde hráči hrají za vesmíné firmy a mohou získávat suroviny a obchodovat či spolu válčit
 \end{itemize}
 
-\chapter{Teoretická východiska a analýza technologií a konceptů}
+\chapter{Teoretická východiska}
 \section{Architektura síťových aplikací}
 Termínem aplikace je rozumněn celek, který obsahuje veškeré nadefinované instrukce pro běh na zařízení. Většina aplikací má tzv. monolitickou architekturu. To znamená, že celá aplikace operuje jako jeden proces na hostitelském zařízení. Alternativou pak jsou tzv. mikroslužby, což jsou aplikace, které se skládají z více vzájemně interagujících procesů\cite{microsluzby}. Na operačním systému Windows by tedy například monolitická aplikace byla obsažena v jednom spustitelném souboru s příponou .exe. Naopak mikroslužební aplikace by se skládala z více takovýchto souborů.
 \subsection{Monolitické a mikroslužební aplikace}
 Obě architektury mají své výhody a nevýhody, proto je při návrhu aplikace důležité vybrat správnou architekturu.
 \subsubsection{Monolitické aplikace}
-Z počátku by se mohlo zdát, že by měly být monolitické aplikace lepší na údržbu či chod, avšak to nemusí vždy platit\cite{atlassian_mono_vs_micro}. Hlavní výhodou monolitických aplikací je především jednoduchost jejich implementace. Jelikož se jedná o jednotný balík, není potřeba řešit přenos dat mezi částmi aplikace. Každá část aplikace má možnost přístupu ke všem nadefinovaným strukturám. Aplikace navíc může být díky své jednoduchosti i více uživatelsky přívětivá.
+Monolitické aplikace mohou být efektivnější na údržbu či chod, avšak to nemusí vždy platit\cite{atlassian_mono_vs_micro}. Hlavní výhodou monolitických aplikací je především jednoduchost jejich implementace. Jelikož se jedná o jednotný balík, není potřeba řešit přenos dat mezi částmi aplikace. Každá část aplikace má možnost přístupu ke všem nadefinovaným strukturám. Aplikace navíc může být díky své jednoduchosti i více uživatelsky přívětivá.
 \subsubsection{Mikroslužby}
 U větších aplikací je časté, že zrovna není zapotřebí spustit je v celé své šíři, avšak by uživateli stačila pouze její část. Jako příklad se zde nabízí uvést hry s více hráči. Pokud je hra naimplementována v režimu client-server a uživatel se pouze chce připojit jako klient k již běžícímu serveru, bylo by efektivnější, kdyby mohl uživatel mít možnost spustit pouze klientskou část, bez potřeby spouštět i server, který by v takovémto případě byl nepotřebný. Nebo by naopak mohla nastat situace, kdy si uživatel hostující hru nepřeje v danou chvíli hrát, ale rád by dál poskytoval jiným hráčům připojení na svém serveru. Bylo by pro něj tedy ideální, kdyby mohl nechat běžet pouze server, bez nutnosti mít zároveň i spuštěnou klientskou službu zodpovědnou za grafické zobrazování, což by vedlo ke zbytečné spotřebě výpočetních prostředků. Toto mohou být hlavní výhody mikroslužeb, jejich efektivita a úspornost.
 Mezi hlavní nevýhody této architektury patří přenos dat mezi jejími částmi. Jelikož má každá aplikační část svůj vlastní proces, nemohou mezi sebou mikroslužby komunikovat například pomocí paměťových ukazatelů. Jedno možné řešení by bylo využití sdílené paměti, kdy se vymezí část operační paměti, do které následně mají jednotlivé části přístup. Toto může být validní a efektivní řešení, avšak pouze v případě, kdy se aplikace spouští pouze na jednom zařízení.
 Jako nejsložitější ale nejvyužitelnější připadá metoda protokolování, což si lze představit jako sdílení dat pomocí řádně nadefinovaných komunikačních pravidel.
 Vývojář mikroslužební aplikace v tomto případě tedy musí vytvořit i protokol, který budou části aplikace pro vzájemnou komunikaci využívat.
 
-\section{Synchronizace stavu}
+\section{Synchronizace stavu aplikace}
 Existuje  více způsobů, jak navrhnout architekturu síťové aplikace. Práce má zadanou podmínku navrhout prostředí v prostředí server-client. Proto je třeba důrazně rozlišit mezi možnými architekturami a zvolit tu odpovídající.
+
 % Rozdíl mezi synchronním (Lockstep) a asynchronním (Autoritativní server) režimem.
 \subsection{Asynchronní architektura}
-Asynchronní architekura se řídí pravidlem, že je každý prvek této architektury sebezodpovědný. V této architektuře je běžné, že je hostitelský prvek pouze poskytovatelem prvotních dat pro nově připojující se prvky.
-Nově připojující se prvek nejprve zašle požadavek o data od hostitele, který následně data odešle a zároveň informuje ostatní prvky v síti o nově připojeném prvku. Jelikož se jedná o kompletní balík se všemi herními daty, může se jednat i o poměrně veliký objem dat. Následně je
+Asynchronní architekura, také nazývaná jako ''distribuovaný simulační model'' se řídí pravidlem, že je každý prvek této architektury sebezodpovědný. V této architektuře je běžné, že je hostitelský prvek pouze poskytovatelem prvotních dat pro nově připojující se prvky\cite{paradox_challenge_2025}.
+Nově připojující se prvek nejprve zašle požadavek o data od hostitele, který následně data odešle a zároveň informuje ostatní prvky v síti o nově připojeném prvku. Jelikož se jedná o kompletní balík se všemi herními daty, může se jednat i o poměrně veliký objem dat, jehož velikost se může pohybovat i v řádu gigabajtů.
+Když je spuštěn běh aplikace, všechny prvky v síti započnou zpravovávání dat samostatně. Prvky posílají hostiteli pouze data o uživatelských aktivitách v podobě příkazů. Pokud tedy například uživatel stiskne v aplikace tlačítko, kterým aktivuje určitou mechaniku, jeho aplikace odešle hostiteli příkaz, kterým se tato mechanika aktivuje. Hostitel tento příkaz následně rozešle do zbylých prvků v síti, čímž dojde k aktivaci dané mechaniky na všech prvcích.
+Tato architektura má kritickou nedokonalost, kdy pokud různé prvky dojdou k různým výsledkům, dojde při tom k porušení synchronizace stavu a běh aplikaci v síti zkolabuje. Této situaci se někdy říká "Out-Of-Sync". Jedná se o častý případ se kterým je seznámeno mnoho hráčů her s touto architekturou. Pokud například vypočítá jeden prvek výsledek nějaké operace jako 3,14 a jiný prvek vypočítá 3,15, už to stačí na kolaps synchronizace.
 
 \subsection{Synchronní architektura}
-V synchronní architektuře je jeden prvek, který slouží jako zdroj dat, který poskytuje data ostatním prvkům v síti. Tato architektura tak má výhodu, že je stabilnější a není potřeba se spoléhat na to, že všechny prvky architektury budou mít vždy stejná data.
+V synchronní architektuře je hostitel prvek, který slouží jako jediný zdroj dat v síti. Tato architektura je stabilní a není v ní potřeba spoléhat se na to, že všechny prvky architektury budou mít vždy stejná data. V této architektuře jsou všechny prvky krom toho hostitelského pouze nástroje pro interakci s daty z hostitelského prvku. 
 
 \section{Programovací jazyky}
+Pro implementaci práce se nabízí mnoho moderních programovacích jazyků. Jelikož se jedná o simulátor, rychlost běhu aplikace je velmi důležitá. Pro zajištění komunikace mezi aplikačními instancemi je také důležité, aby jazyk umožňoval síťové operace.
+\subsection{Jazyky rodiny C}
+Jazyky rodiny C jsou známy pro svou rychlost a možnost přímé manipulace s pamětí. To je pro simulátor výhodné. Jazyk C++ umožňuje definovat objekty a jejich vzájemné vazby.
+\subsection{Java a C\#}
+Java a C\#
 
 \chapter{Analýza pravidel a možností simulátoru}
 Ve videoherním i deskoherním průmyslu se pro řízení dynamiky hry nejčastěji využívají dva základní přístupy, tahový a časový. Každý z těchto systémů přináší specifické výhody a nevýhody, které zásadně ovlivňují hratelnost a celkový uživatelský zážitek.
@@ -175,17 +183,49 @@ Hlavním benefitem je dokonalý přehled nad herní situací a dostatek prostoru
 Zásadním problémem tahových her je jejich zdlouhavost. S rostoucím počtem účastníků se úměrně prodlužuje doba čekání na tah. Pokud se hráč dostane k akci například jen jednou za půl hodiny, může hra ztratit tempo a stát se nezáživnou a v extrémních případech vést až k předčasnému odstoupení znuděných hráčů.
 
 \section{Časový model}
-Také někdy nazýván jako model v reálném čase, v časovém modelu plyne čas plynule a pro všechny účastníky synchronně. Akce tak probíhají najednou, aniž by se muselo čekat na tahy ostatních.
+Také někdy nazýván jako "Real-Time" model (model v reálném čase), v časovém modelu plyne čas plynule a pro všechny účastníky synchronně. Akce tak probíhají najednou, aniž by se muselo čekat na tahy ostatních.
 
 Tento přístup nabízí mnohem vyšší plynulost a dynamiku. Hráči mohou jednat kdykoliv, což činí hru zábavnější i při větším množství účastníků. Podle nastavení pravidel mohou hráči běh času libovolně pozastavovat, nebo naopak vynutit jeho nezastavitelný běh.
 
 Hlavní slabinou tohoto modelu je jeho neodpustitelnost. Vzhledem k tomu, že se situace neustále vyvíjí, klade hra vysoké nároky na pozornost. Pokud hráč například zapomene zadat výrobu nové lodi, tato chyba se v čase kumuluje. Po určité době může zjistit, že nedisponuje dostatečnou flotilou, což ho postaví do fatální nevýhody, ze které již často není návratu.
 
+\section{Pravidlový systém}
+Pravidlový systém simulátoru by měl být jednoduchý a intuitivní.
+
+Pravidla definují tyto abstrakce:
+\begin{lstlisting}
+  \item Prostor
+  \item Technologie
+  \item Obchod
+  \item Entity
+\end{lstlisting}
+
+\section{Prostor}
+
+\section{Technologie}
+
+\section{Obchod}
+
+\section{Entity}
+
 \chapter{Implementace}
 Pro implementaci práce byl založen projekt Space Merchant (z anglického jazyka přeloženo jako "vesmírný obchodník" či "prostorový obchodník"). Projekt vyžaduje komplexní využití výpočeních prostředků a ideálně rychlost a dostupnost. Pro účely takového projektu byl zvolen jazyk C++ a pro záznam dat notace JSON.
 
 
-\chapter{Uživatelská příručka a rozhraní}
+\chapter{Uživatelský manuál}
+\section{Serverová část}
+Space merchant server je stavový automat. Jsou 4 možné stavy: idle, running, configuration, ending.
+\subsection{Stav idle}
+V tomto stavu je server pozastaven avšak může reagovat na příchozí požadavky.
+
+\subsection{Stav running}
+V tomto stavu server aktivně zpracovává data.
+
+\subsection{Stav configuration}
+V tomto stavu je možné upravovat serverová data pomocí příkazů
+
+\subsection{Stav ending}
+Při tomto stavu je server připraven být ukončen a aktivně vypíná veškeré své části.
 
 
 
