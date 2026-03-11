@@ -61,7 +61,7 @@
 
 \DeclareNameAlias{author}{family-given/given-family} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\usepackage{svg}
 \usepackage{csquotes} %užití biblatexu hlasí warnings, důvodem může být použití českých uvozovek v citacích! / solving of problems with Czech quotations
 \urlstyle{same} %sazba url odkazů stejným fontem jako ostatní text, řešení problémů v zalamování hypertextových odkazů v citacích / url in references setting into the same form as text 
 
@@ -164,7 +164,9 @@ Když je spuštěn běh aplikace, všechny prvky v síti započnou zpravováván
 Tato architektura má kritickou nedokonalost, kdy pokud různé prvky dojdou k různým výsledkům, dojde při tom k porušení synchronizace stavu a běh aplikaci v síti zkolabuje. Této situaci se někdy říká "Out-Of-Sync". Jedná se o častý případ se kterým je seznámeno mnoho hráčů her s touto architekturou. Pokud například vypočítá jeden prvek výsledek nějaké operace jako 3,14 a jiný prvek vypočítá 3,15, už to stačí na kolaps synchronizace.
 
 \subsection{Synchronní architektura}
-V synchronní architektuře je hostitel prvek, který slouží jako jediný zdroj dat v síti. Tato architektura je stabilní a není v ní potřeba spoléhat se na to, že všechny prvky architektury budou mít vždy stejná data. V této architektuře jsou všechny prvky krom toho hostitelského pouze nástroje pro interakci s daty z hostitelského prvku. 
+V synchronní architektuře je hostitel prvek, který slouží jako jediný zdroj dat v síti. Tato architektura je stabilní a není v ní potřeba spoléhat se na to, že všechny prvky architektury budou mít vždy stejná data. V této architektuře jsou všechny prvky krom toho hostitelského pouze nástroje pro interakci s daty z hostitelského prvku.
+
+\includegraphics{obrazky/bp.drawio.png}
 
 \section{Programovací jazyky}
 Pro implementaci práce se nabízí mnoho moderních programovacích jazyků. Jelikož se jedná o simulátor, rychlost běhu aplikace je velmi důležitá. Pro zajištění komunikace mezi aplikačními instancemi je také důležité, aby jazyk umožňoval síťové operace.
@@ -192,15 +194,16 @@ Hlavní slabinou tohoto modelu je jeho neodpustitelnost. Vzhledem k tomu, že se
 \section{Pravidlový systém}
 Pravidlový systém simulátoru by měl být jednoduchý a intuitivní.
 
-Pravidla definují tyto abstrakce:
-\begin{lstlisting}
+Pro účely obchodního simulátoru byly nadefinovány tyto abstraktní části:
+\begin{listing}
   \item Prostor
   \item Technologie
   \item Obchod
   \item Entity
-\end{lstlisting}
+\end{listing}
 
 \section{Prostor}
+Prostor je nadefinován pomocí uzlů a jejich propojení. Uzel se dá představit jako samostatný bod v prostoru. Každá instance simulátoru musí mít alespoň jeden uzel tvořící prostor hry.
 
 \section{Technologie}
 
