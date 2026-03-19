@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkspace_merchant_docs=globalThis.webpackChunkspace_merchant_docs||[]).push([[1903],{1912(s){s.exports=JSON.parse('{"blogBasePath":"/PDO/blog","blogTitle":"Blog","authorsListPath":"/PDO/blog/authors"}')}}]);
