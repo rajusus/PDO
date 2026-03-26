@@ -65,7 +65,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/market.svg',
+      image: 'img/guarantee-svgrepo-com.svg',
       colorMode: {
         respectPrefersColorScheme: true,
       },
@@ -73,7 +73,7 @@ const config = {
         title: 'Space Merchant',
         logo: {
           alt: 'Space Merchant Logo',
-          src: 'img/market.svg',
+          src: 'img/guarantee-svgrepo-com.svg',
         },
         items: [
           {
