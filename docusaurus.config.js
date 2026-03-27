@@ -13,7 +13,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: 'Space Merchant Docs',
   tagline: 'Offer the best deals in the universe!',
-  favicon: 'img/market.ico',
+  favicon: 'img/dolar_globe.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -39,7 +39,7 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'cs'],
   },
 
   presets: [
@@ -73,7 +73,7 @@ const config = {
         title: 'Space Merchant',
         logo: {
           alt: 'Space Merchant Logo',
-          src: 'img/guarantee-svgrepo-com.svg',
+          src: 'img/dolar_globe.svg',
         },
         items: [
           {
