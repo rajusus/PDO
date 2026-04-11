@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkspace_merchant_docs=globalThis.webpackChunkspace_merchant_docs||[]).push([[742],{7093(s){s.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"default"}')}}]);

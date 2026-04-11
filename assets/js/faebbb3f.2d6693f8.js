@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkspace_merchant_docs=self.webpackChunkspace_merchant_docs||[]).push([["215"],{7740(e){e.exports=JSON.parse('{"metadata":{"permalink":"/PDO/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":0,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
