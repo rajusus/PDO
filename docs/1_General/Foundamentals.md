@@ -1,25 +1,42 @@
+# Space Merchant Fundamentals
 
-# Space Merchant Foundamentals
+At its heart, Space Merchant is a game of leverage. Your goal is to transform a modest starting kit into a sprawling trade empire through calculated investments and shrewd negotiations.
 
-Space Merchant is a simulator about *trade*.
+    Watch your back: In the vacuum of space, a bad deal can be just as lethal as a laser blast. Trust is a currency—spend it wisely.
 
-Build your trade empire by proper investment and deals. Don't let others stab you in the back.
+🏛 System Architecture
 
-The game is split into 2 parts, the server and the client.
-![foundamentals diagram](../../static/img/foundamentals_diagram.png)
+To ensure a persistent and fair economic environment, the game operates on a distributed model:
 
+    The Server: Hosts the universe, manages the database, and enforces the rules.
 
-## Running
-To run the server and the client, you need a device running a Windows OS.
+    The Client: Your window into the world; used by players to view markets and issue commands.
 
-You can run the server on you LAN and allow others in the network to join your server. At least one server needs to be running on a LAN for the client to be able to join.
+💻 Requirements & Connectivity
 
-## Mechanics
-In Space Merchant, you play as an *Entity*. Your entity can interact with the game's enviroment in these ways:
+Currently, Space Merchant requires a device running Windows OS.
 
-- Buy offered items on the markets.
-- Offer owned items on a market for a price per unit.
-- Transfer owned items between owned containers.
-- Transfer owned containers into different locations.
+    Local Hosting: You can host a server on your Local Area Network (LAN).
 
-Want to learn how to manage your server? Continue to the next chapter.
+    Connectivity: For a client to play, at least one server must be active and reachable within the network. Multiple clients can connect to a single server to compete in the same market.
+
+🛠 Core Mechanics
+
+You interact with the galaxy as an Entity. Whether you are a solo pilot or a corporate conglomerate, your influence is exerted through these primary actions:
+1. Market Interaction
+
+    Acquisition: Purchase goods currently offered on the open market.
+
+    Listing: Set your own price points and offer your inventory to other entities.
+
+2. Logistics Management
+
+    Inventory Transfer: Move items between your various owned containers to optimize storage.
+
+    Logistics: Relocate your containers to different stations or sectors to take advantage of regional price differences.
+
+Strategy Tip: Buy Low, Fly High
+
+The key to success is identifying arbitrage opportunities—buying resources in a sector where they are plentiful and moving them to a sector where they are scarce.
+
+Ready to fire up the engines? Learn how to [manage your server in the next chapter](../2_Server/1_intro.md).
