@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Server Basics
+# Server Introduction
 
 The server is the central part of the game. A server holds all the data in its internal data structure.
 
