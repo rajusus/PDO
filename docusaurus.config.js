@@ -67,7 +67,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/guarantee-svgrepo-com.svg',
       colorMode: {
-        respectPrefersColorScheme: true,
+        disableSwitch: true
       },
       navbar: {
         title: 'Space Merchant',
@@ -85,7 +85,7 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
+        style: 'light',
         links: [
           {
             title: 'Docs',
